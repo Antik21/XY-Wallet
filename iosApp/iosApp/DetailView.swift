@@ -16,9 +16,11 @@ struct DetailView: View {
         VStack {
             if let obj = viewModel.museumObject {
                 ObjectDetails(obj: obj)
+            } else {
+                ProgressView()
             }
         }
-        .onAppear {
+        .task(id: objectId) {
             viewModel.setId(objectId: objectId)
         }
     }

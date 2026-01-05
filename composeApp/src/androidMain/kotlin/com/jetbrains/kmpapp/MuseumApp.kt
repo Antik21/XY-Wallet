@@ -13,7 +13,7 @@ class MuseumApp : Application() {
             listOf(
                 module {
                     factory { ListViewModel(get()) }
-                    factory { (objectId: Int) -> DetailViewModel(objectId, get()) }
+                    factory { DetailViewModel(get()) }
                 }
             )
         )

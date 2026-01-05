@@ -1,9 +1,12 @@
 package com.jetbrains.kmpapp.screens
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,6 +17,7 @@ import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,6 +26,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,27 +37,39 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.jetbrains.kmpapp.R
 import com.jetbrains.kmpapp.data.MuseumObject
 import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
-import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 fun DetailScreen(objectId: Int, navigateBack: () -> Unit) {
-    val viewModel: DetailViewModel = koinViewModel(parameters = { parametersOf(objectId) })
-    val state: DetailViewModel.ViewState by viewModel.collectAsState()
+    val viewModel: DetailViewModel = koinViewModel()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
 
-    when (state) {
-        is DetailViewModel.ViewState.Data -> {
-            ObjectDetails(
-                (state as DetailViewModel.ViewState.Data).museumObject,
-                onBackClick = navigateBack
-            )
+    LaunchedEffect(objectId) {
+        viewModel.setId(objectId)
+    }
+
+    AnimatedContent(state) { s ->
+        when (s) {
+            is DetailViewModel.ViewState.Data -> {
+                ObjectDetails(s.museumObject, onBackClick = navigateBack)
+            }
+            is DetailViewModel.ViewState.Error -> {
+                EmptyScreenContent(Modifier.fillMaxSize())
+            }
+            is DetailViewModel.ViewState.NotFound -> {
+                EmptyScreenContent(Modifier.fillMaxSize())
+            }
+            is DetailViewModel.ViewState.Loading,
+            DetailViewModel.ViewState.Idle -> {
+                Box(Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(Modifier.padding(24.dp))
+                }
+            }
         }
-
-        else -> {}
     }
 }
 
