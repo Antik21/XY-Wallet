@@ -7,6 +7,7 @@ XY-Wallet is a simple Android and iOS app with a native, pleasant UI for secure 
 - Build a hybrid native + KMP application.
 - Study an approach where business logic is shared via KMP, while the UI is rendered natively on each platform.
 - Apply simple but correct development practices.
+- Implement most of the project using AI agents (Cursor, Claude Code, GPT Codex). The repository includes instructions for working with all parts of the project. Early stages involved manual architecture design for the whole system and creation of development rules.
 - The project is primarily training and demonstration oriented.
 
 ## Project Infrastructure
