@@ -15,7 +15,7 @@ XY-Wallet is a simple Android and iOS app with a native, pleasant UI for secure 
 - A simple, reliable architecture for maintenance, extension, and deployment.
 - Shared modules with the apps for communication, such as routes/endpoints and models.
 
-### Client
+### Mobile Apps
 - MVI (MVVM+ with UDF) approach in the app.
 - The KMP core covers screen ViewModel logic, plus domain and data layers.
 - Android uses Jetpack Compose for UI rendering.
