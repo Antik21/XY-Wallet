@@ -1,5 +1,6 @@
 package com.antik.wallet.server.shared.errors
 
+import com.antik.wallet.dto.ApiError
 import com.antik.wallet.server.shared.tracing.requestId
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application

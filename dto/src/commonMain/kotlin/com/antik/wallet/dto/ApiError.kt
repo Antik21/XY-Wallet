@@ -1,4 +1,4 @@
-package com.antik.wallet.server.shared.errors
+package com.antik.wallet.dto
 
 import kotlinx.serialization.Serializable
 

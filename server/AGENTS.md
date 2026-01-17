@@ -19,7 +19,7 @@ High‑level layout (modular monolith + ports/adapters):
   - `Modules.kt` – central dependency wiring (ports -> infra adapters).
   - `AppConfig.kt` – configuration model + env loader.
 - `shared/`
-  - `errors/` – `ApiError`, exception mapping (`StatusPages`).
+  - `errors/` - exception mapping (`StatusPages`).
   - `validation/` – validation helpers.
   - `tracing/` – request id handling (CallId).
   - `health/` – health endpoints (live/ready).
@@ -53,7 +53,7 @@ From `server/build.gradle.kts` and `gradle/libs.versions.toml`:
 
 Notes:
 - JSON is handled by Kotlinx Serialization.
-- Errors are normalized to `ApiError`.
+- Errors are normalized to `ApiError` (from `dto`).
 - Request ID is enforced by CallId.
 
 ---
@@ -85,7 +85,7 @@ These Gradle properties are required for `runProd`. Missing ones cause a build e
 - Ktor `ContentNegotiation` handles serialization automatically.
 
 ### 4.2 Error responses (standardized)
-All errors must map to `ApiError`:
+All errors must map to `ApiError` (from `dto`):
 ```json
 {
   "code": "validation_error",
