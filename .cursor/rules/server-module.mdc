@@ -1,0 +1,16 @@
+---
+description: Server module — rules and source of truth
+alwaysApply: false
+---
+
+CONTEXT
+This project has a dedicated server module (`server/`). All architecture and maintenance
+rules for the server live in a separate document.
+
+RULE
+- Follow the server rules in: @server/AGENTS.md
+- Treat `server/AGENTS.md` as the single source of truth for server structure, libraries,
+  configuration, request/response formats, and extension guidelines.
+
+REFERENCES
+@server/AGENTS.md

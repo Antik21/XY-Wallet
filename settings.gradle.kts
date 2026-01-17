@@ -1,4 +1,4 @@
-rootProject.name = "KMP-App-Template-Native"
+rootProject.name = "XY-Wallet"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
@@ -30,3 +30,6 @@ dependencyResolutionManagement {
 
 include(":shared")
 include(":composeApp")
+include(":dto")
+include(":api")
+include(":server")

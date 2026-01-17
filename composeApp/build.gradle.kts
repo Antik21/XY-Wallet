@@ -26,6 +26,7 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
+            implementation(projects.api)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -41,11 +42,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.jetbrains.kmpapp"
+    namespace = "com.antik.wallet"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.jetbrains.kmpapp"
+        applicationId = "com.antik.wallet"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
