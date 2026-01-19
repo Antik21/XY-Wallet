@@ -6,7 +6,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.kmpNativeCoroutines)
+    alias(libs.plugins.skie)
 }
 
 kotlin {
@@ -30,6 +30,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
+            implementation(libs.androidx.viewmodel.ktx)
             implementation(libs.ktor.client.okhttp)
         }
         iosMain.dependencies {
@@ -43,14 +44,15 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.koin.core)
             implementation(libs.orbit.viewmodel)
-            api(libs.kmp.observable.viewmodel)
+            implementation(libs.skie.configuration.annotations)
         }
 
-        // Required by KMM-ViewModel
-        all {
-            languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
-            languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
-        }
+    }
+}
+
+skie {
+    features {
+        enableSwiftUIObservingPreview = true
     }
 }
 

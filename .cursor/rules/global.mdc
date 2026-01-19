@@ -1,0 +1,13 @@
+---
+description: Global rules - root source of truth
+alwaysApply: true
+---
+
+CONTEXT
+This repository has a root rules document that governs all project guidance.
+
+RULE
+- Read and follow the rules in: @AGENTS.md
+
+REFERENCES
+@AGENTS.md

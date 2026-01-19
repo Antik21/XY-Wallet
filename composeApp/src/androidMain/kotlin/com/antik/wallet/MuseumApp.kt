@@ -15,7 +15,7 @@ class MuseumApp : Application() {
                 module {
                     single { ApiConfig(baseUrl = "http://192.168.100.10:8080") }
                     factory { ListViewModel(get()) }
-                    factory { DetailViewModel(get()) }
+                    factory { (objectId: Int) -> DetailViewModel(get(), objectId) }
                 }
             )
         )

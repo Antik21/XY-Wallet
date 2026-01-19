@@ -1,13 +1,12 @@
 import SwiftUI
-import KMPNativeCoroutinesAsync
-import KMPObservableViewModelSwiftUI
 import Shared
 
 struct ListView: View {
-    @StateViewModel
-    var viewModel = ListViewModel(
+    @StateObject private var holder = ListViewModelHolder(
         museumRepository: KoinDependencies().museumRepository
     )
+
+    @State private var objects: [MuseumObject] = []
 
     let columns = [
         GridItem(.adaptive(minimum: 120), alignment: .top)
@@ -15,11 +14,11 @@ struct ListView: View {
 
     var body: some View {
         ZStack {
-            if !viewModel.objects.isEmpty {
+            if !objects.isEmpty {
                 NavigationStack {
                     ScrollView {
                         LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
-                            ForEach(viewModel.objects, id: \.self) { item in
+                            ForEach(objects, id: \.objectID) { item in
                                 NavigationLink(destination: DetailView(objectId: item.objectID)) {
                                     ObjectFrame(obj: item)
                                 }
@@ -31,6 +30,13 @@ struct ListView: View {
                 }
             } else {
                 Text("No data available")
+            }
+        }
+        .task {
+            for await latestObjects in holder.viewModel.objects {
+                await MainActor.run {
+                    objects = latestObjects
+                }
             }
         }
     }

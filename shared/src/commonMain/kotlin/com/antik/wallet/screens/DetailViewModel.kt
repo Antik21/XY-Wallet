@@ -1,61 +1,47 @@
 package com.antik.wallet.screens
 
-import com.antik.wallet.dto.MuseumObject
 import com.antik.wallet.data.MuseumRepository
-import com.rickclephas.kmp.observableviewmodel.stateIn
-import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
+import com.antik.wallet.dto.MuseumObject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlin.coroutines.cancellation.CancellationException
-import org.orbitmvi.orbit.viewmodel.container
+import kotlinx.coroutines.flow.stateIn
+import org.orbitmvi.orbit.container
 
 class DetailViewModel(
-    private val museumRepository: MuseumRepository
+    private val museumRepository: MuseumRepository,
+    private val objectId: Int,
 ) : BaseViewModel<DetailViewModel.ViewState, DetailViewModel.SideEffect>() {
 
-    override val container = container<ViewState, SideEffect>(
-        initialState = ViewState.Idle,
+    override val container = viewModelScope.container<ViewState, SideEffect>(
+        initialState = ViewState.Loading(objectId),
+        onCreate = {
+            loadObject()
+        },
     )
 
-    @NativeCoroutinesState
     val museumObject: StateFlow<MuseumObject?> =
         uiState
             .map { state -> (state as? ViewState.Data)?.museumObject }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
-    fun setId(objectId: Int) {
-        intent {
-            val currentId = when (val s = state) {
-                is ViewState.Loading -> s.objectId
-                is ViewState.Data -> s.objectId
-                is ViewState.NotFound -> s.objectId
-                is ViewState.Error -> s.objectId
-                ViewState.Idle -> null
+    private fun loadObject() = intent {
+        runCatching {
+            val obj = museumRepository.getObjectById(objectId).first()
+            if (obj != null) {
+                reduce { ViewState.Data(objectId = objectId, museumObject = obj) }
+            } else {
+                reduce { ViewState.NotFound(objectId) }
             }
-            if (currentId == objectId) return@intent
-
-            reduce { ViewState.Loading(objectId) }
-
-            try {
-                val obj = museumRepository.getObjectById(objectId).first()
-                if (obj != null) {
-                    reduce { ViewState.Data(objectId = objectId, museumObject = obj) }
-                } else {
-                    reduce { ViewState.NotFound(objectId) }
-                }
-            } catch (e: Exception) {
-                if (e is CancellationException) throw e
-                reduce { ViewState.Error(objectId = objectId, message = e.message ?: "Unknown error") }
-            }
+        }.onFailure { ex ->
+            reduce { ViewState.Error(objectId = objectId, message = ex.message ?: "Unknown error") }
         }
     }
 
     sealed interface SideEffect
 
     sealed interface ViewState {
-        data object Idle : ViewState
         data class Loading(val objectId: Int) : ViewState
         data class Data(val objectId: Int, val museumObject: MuseumObject) : ViewState
         data class NotFound(val objectId: Int) : ViewState

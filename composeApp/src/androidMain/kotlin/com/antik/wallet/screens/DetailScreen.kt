@@ -26,7 +26,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,15 +41,12 @@ import coil3.compose.AsyncImage
 import com.antik.wallet.R
 import com.antik.wallet.dto.MuseumObject
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun DetailScreen(objectId: Int, navigateBack: () -> Unit) {
-    val viewModel: DetailViewModel = koinViewModel()
+    val viewModel: DetailViewModel = koinViewModel(parameters = { parametersOf(objectId) })
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-
-    LaunchedEffect(objectId) {
-        viewModel.setId(objectId)
-    }
 
     AnimatedContent(state) { s ->
         when (s) {

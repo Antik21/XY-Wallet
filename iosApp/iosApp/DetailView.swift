@@ -1,27 +1,38 @@
 import Foundation
 import SwiftUI
 import Shared
-import KMPNativeCoroutinesAsync
-import KMPObservableViewModelSwiftUI
 
 struct DetailView: View {
-    @StateViewModel
-    var viewModel = DetailViewModel(
-        museumRepository: KoinDependencies().museumRepository
-    )
+    @StateObject private var holder: DetailViewModelHolder
+
+    @State private var museumObject: MuseumObject?
 
     let objectId: Int32
 
+    init(objectId: Int32) {
+        self.objectId = objectId
+        _holder = StateObject(
+            wrappedValue: DetailViewModelHolder(
+                museumRepository: KoinDependencies().museumRepository,
+                objectId: Int(objectId)
+            )
+        )
+    }
+
     var body: some View {
         VStack {
-            if let obj = viewModel.museumObject {
+            if let obj = museumObject {
                 ObjectDetails(obj: obj)
             } else {
                 ProgressView()
             }
         }
         .task(id: objectId) {
-            viewModel.setId(objectId: objectId)
+            for await latestObject in holder.viewModel.museumObject {
+                await MainActor.run {
+                    museumObject = latestObject
+                }
+            }
         }
     }
 }
