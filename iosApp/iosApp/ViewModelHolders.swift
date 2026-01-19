@@ -16,7 +16,7 @@ final class ListViewModelHolder: ObservableObject {
 final class DetailViewModelHolder: ObservableObject {
     let viewModel: DetailViewModel
 
-    init(museumRepository: MuseumRepository, objectId: Int) {
+    init(museumRepository: MuseumRepository, objectId: Int32) {
         self.viewModel = DetailViewModel(
             museumRepository: museumRepository,
             objectId: objectId

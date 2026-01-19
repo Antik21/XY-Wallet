@@ -2,6 +2,7 @@ package com.antik.wallet.screens
 
 import com.antik.wallet.data.MuseumRepository
 import com.antik.wallet.dto.MuseumObject
+import com.antik.wallet.utils.onFailureCancellable
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
@@ -34,7 +35,7 @@ class DetailViewModel(
             } else {
                 reduce { ViewState.NotFound(objectId) }
             }
-        }.onFailure { ex ->
+        }.onFailureCancellable { ex ->
             reduce { ViewState.Error(objectId = objectId, message = ex.message ?: "Unknown error") }
         }
     }

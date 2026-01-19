@@ -5,7 +5,7 @@ import Shared
 struct DetailView: View {
     @StateObject private var holder: DetailViewModelHolder
 
-    @State private var museumObject: MuseumObject?
+    @State private var museumObject: DtoMuseumObject?
 
     let objectId: Int32
 
@@ -14,7 +14,7 @@ struct DetailView: View {
         _holder = StateObject(
             wrappedValue: DetailViewModelHolder(
                 museumRepository: KoinDependencies().museumRepository,
-                objectId: Int(objectId)
+                objectId: objectId
             )
         )
     }
@@ -38,7 +38,7 @@ struct DetailView: View {
 }
 
 struct ObjectDetails: View {
-    var obj: MuseumObject
+    var obj: DtoMuseumObject
 
     var body: some View {
         ScrollView {

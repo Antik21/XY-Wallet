@@ -6,7 +6,7 @@ struct ListView: View {
         museumRepository: KoinDependencies().museumRepository
     )
 
-    @State private var objects: [MuseumObject] = []
+    @State private var objects: [DtoMuseumObject] = []
 
     let columns = [
         GridItem(.adaptive(minimum: 120), alignment: .top)
@@ -43,7 +43,7 @@ struct ListView: View {
 }
 
 struct ObjectFrame: View {
-    let obj: MuseumObject
+    let obj: DtoMuseumObject
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
