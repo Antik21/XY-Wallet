@@ -1,3 +1,28 @@
+---
+description: 
+alwaysApply: false
+---
+
+---
+description: 
+alwaysApply: false
+---
+
+---
+description: 
+alwaysApply: false
+---
+
+---
+description: 
+alwaysApply: false
+---
+
+---
+description: 
+alwaysApply: false
+---
+
 # Server module — Claude Code instructions
 
 All server-specific architecture and maintenance rules are documented in:
