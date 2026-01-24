@@ -25,6 +25,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "Shared"
             isStatic = true
+            export(libs.androidx.viewmodel)
         }
     }
 
@@ -39,6 +40,7 @@ kotlin {
         commonMain.dependencies {
             api(projects.dto)
             implementation(projects.api)
+            implementation(libs.androidx.viewmodel)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)

@@ -3,23 +3,17 @@ import SwiftUI
 import Shared
 
 struct DetailView: View {
-    @StateObject private var holder: DetailViewModelHolder
+    @StateObject private var viewModelStoreOwner = IosViewModelStoreOwner()
 
     @State private var museumObject: DtoMuseumObject?
 
     let objectId: Int32
 
-    init(objectId: Int32) {
-        self.objectId = objectId
-        _holder = StateObject(
-            wrappedValue: DetailViewModelHolder(
-                museumRepository: KoinDependencies().museumRepository,
-                objectId: objectId
-            )
-        )
-    }
-
     var body: some View {
+        let viewModel: DetailViewModel = viewModelStoreOwner.viewModel(
+            factory: ViewModelFactoriesKt.detailViewModelFactory(objectId: objectId)
+        )
+
         VStack {
             if let obj = museumObject {
                 ObjectDetails(obj: obj)
@@ -28,7 +22,7 @@ struct DetailView: View {
             }
         }
         .task(id: objectId) {
-            for await latestObject in holder.viewModel.museumObject {
+            for await latestObject in viewModel.museumObject {
                 await MainActor.run {
                     museumObject = latestObject
                 }

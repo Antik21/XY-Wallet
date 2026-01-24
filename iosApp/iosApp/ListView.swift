@@ -2,9 +2,7 @@ import SwiftUI
 import Shared
 
 struct ListView: View {
-    @StateObject private var holder = ListViewModelHolder(
-        museumRepository: KoinDependencies().museumRepository
-    )
+    @StateObject private var viewModelStoreOwner = IosViewModelStoreOwner()
 
     @State private var objects: [DtoMuseumObject] = []
 
@@ -13,6 +11,10 @@ struct ListView: View {
     ]
 
     var body: some View {
+        let viewModel: ListViewModel = viewModelStoreOwner.viewModel(
+            factory: ViewModelFactoriesKt.listViewModelFactory
+        )
+
         ZStack {
             if !objects.isEmpty {
                 NavigationStack {
@@ -33,7 +35,7 @@ struct ListView: View {
             }
         }
         .task {
-            for await latestObjects in holder.viewModel.objects {
+            for await latestObjects in viewModel.objects {
                 await MainActor.run {
                     objects = latestObjects
                 }

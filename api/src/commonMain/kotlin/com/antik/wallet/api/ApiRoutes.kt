@@ -8,7 +8,7 @@ object ApiRoutes {
 }
 
 object ApiDefaults {
-    const val BASE_URL = "http://localhost:8080"
+    const val BASE_URL = "http://188.169.217.8:8080"
 }
 
 data class ApiConfig(
