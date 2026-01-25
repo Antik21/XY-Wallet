@@ -30,7 +30,6 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(projects.featureList)
-            implementation(projects.featureDetail)
             implementation(projects.featureStart)
             implementation(projects.featureWeb)
             implementation(projects.shared)
