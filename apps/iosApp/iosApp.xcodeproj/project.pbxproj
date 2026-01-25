@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
+		1F2EF453711D4E60A1ED9F6E /* feature/start/StartScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89BA662CDAC641BEB19389A4 /* feature/start/StartScreen.swift */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
+		713AF32FE0F04D9B82CE7337 /* feature/web/WebScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D076514F02F48CFB2E26107 /* feature/web/WebScreen.swift */; };
 		7555FF83242A565900829871 /* feature/list/ListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* feature/list/ListScreen.swift */; };
 		90703BB7C7F841DA9FF381AF /* feature/list/EmptyScreenContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05DC5F9D92034FB9AC53CF2A /* feature/list/EmptyScreenContent.swift */; };
 		C9D6BB0E75D3413BA8CDA372 /* navigation/AppNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5669F50D99F49BEB3DC2DB0 /* navigation/AppNavigation.swift */; };
@@ -21,10 +23,12 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		05DC5F9D92034FB9AC53CF2A /* feature/list/EmptyScreenContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feature/list/EmptyScreenContent.swift; sourceTree = "<group>"; };
+		3D076514F02F48CFB2E26107 /* feature/web/WebScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feature/web/WebScreen.swift; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* XY-Wallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "XY-Wallet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF82242A565900829871 /* feature/list/ListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feature/list/ListScreen.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		89BA662CDAC641BEB19389A4 /* feature/start/StartScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feature/start/StartScreen.swift; sourceTree = "<group>"; };
 		AB3632DC29227652001CCB65 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		B5669F50D99F49BEB3DC2DB0 /* navigation/AppNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = navigation/AppNavigation.swift; sourceTree = "<group>"; };
 		EB1C5CC62AE06906002852BE /* feature/detail/DetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = feature/detail/DetailScreen.swift; sourceTree = "<group>"; };
@@ -81,6 +85,8 @@
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* feature/list/ListScreen.swift */,
 				05DC5F9D92034FB9AC53CF2A /* feature/list/EmptyScreenContent.swift */,
+				89BA662CDAC641BEB19389A4 /* feature/start/StartScreen.swift */,
+				3D076514F02F48CFB2E26107 /* feature/web/WebScreen.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				B5669F50D99F49BEB3DC2DB0 /* navigation/AppNavigation.swift */,
@@ -200,6 +206,8 @@
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				EB6A0C3B2D1F4D7A0099A1B2 /* IosViewModelStoreOwner.swift in Sources */,
 				90703BB7C7F841DA9FF381AF /* feature/list/EmptyScreenContent.swift in Sources */,
+				1F2EF453711D4E60A1ED9F6E /* feature/start/StartScreen.swift in Sources */,
+				713AF32FE0F04D9B82CE7337 /* feature/web/WebScreen.swift in Sources */,
 				C9D6BB0E75D3413BA8CDA372 /* navigation/AppNavigation.swift in Sources */,
 				7555FF83242A565900829871 /* feature/list/ListScreen.swift in Sources */,
 			);

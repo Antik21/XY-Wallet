@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import android.net.Uri
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -22,13 +23,22 @@ import com.antik.wallet.feature.common.AppBarNavigationHandler
 import com.antik.wallet.feature.common.AppBarNavigationIcon
 import com.antik.wallet.feature.list.ListNavigation
 import com.antik.wallet.feature.list.ListScreen
+import com.antik.wallet.feature.start.StartNavigation
+import com.antik.wallet.feature.start.StartScreen
+import com.antik.wallet.feature.web.WebScreen
 import kotlinx.serialization.Serializable
+
+@Serializable
+data object StartRoute
 
 @Serializable
 data object ListRoute
 
 @Serializable
 data class DetailRoute(val objectId: Int)
+
+@Serializable
+data class WebRoute(val url: String)
 
 @Composable
 fun AppNavigation() {
@@ -50,6 +60,17 @@ fun AppNavigation() {
         // Reset handlers on destination change to avoid leaking behavior across screens.
         appBarActionHandler = NoOpAppBarActionHandler
         appBarNavigationHandler = NoOpAppBarNavigationHandler
+    }
+    val startNavigator = remember(navController) {
+        object : StartNavigation.Navigator {
+            override fun openListFlow() {
+                navController.navigate(ListRoute)
+            }
+
+            override fun openWebFlow(url: String) {
+                navController.navigate(WebRoute(Uri.encode(url)))
+            }
+        }
     }
     val listNavigator = remember(navController) {
         object : ListNavigation.Navigator {
@@ -85,9 +106,17 @@ fun AppNavigation() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = ListRoute,
+            startDestination = StartRoute,
             modifier = Modifier.padding(innerPadding),
         ) {
+            composable<StartRoute> {
+                StartScreen(
+                    navigator = startNavigator,
+                    onAppBarConfigChange = { appBarConfig = it },
+                    onAppBarActionHandlerChange = { appBarActionHandler = it },
+                )
+            }
+
             composable<ListRoute> {
                 ListScreen(
                     navigator = listNavigator,
@@ -104,6 +133,15 @@ fun AppNavigation() {
                     onAppBarConfigChange = { appBarConfig = it },
                     onAppBarActionHandlerChange = { appBarActionHandler = it },
                     onAppBarNavigationHandlerChange = { appBarNavigationHandler = it },
+                )
+            }
+
+            composable<WebRoute> { backStackEntry ->
+                val route = backStackEntry.toRoute<WebRoute>()
+                WebScreen(
+                    url = Uri.decode(route.url),
+                    onAppBarConfigChange = { appBarConfig = it },
+                    onAppBarActionHandlerChange = { appBarActionHandler = it },
                 )
             }
         }

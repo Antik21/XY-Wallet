@@ -34,7 +34,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.antik.wallet.R
+import com.antik.wallet.feature.detail.R
 import com.antik.wallet.dto.MuseumObject
 import com.antik.wallet.feature.common.AppBarActionHandler
 import com.antik.wallet.feature.common.AppBarConfig
