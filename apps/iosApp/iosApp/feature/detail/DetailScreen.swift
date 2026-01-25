@@ -5,28 +5,70 @@ import Shared
 struct DetailScreen: View {
     @StateObject private var viewModelStoreOwner = IosViewModelStoreOwner()
 
-    @State private var museumObject: DtoMuseumObject?
+    @State private var viewState: Shared.Skie.XY_Wallet__shared.ViewState.__Sealed?
+    @State private var alertMessage: String?
 
     let objectId: Int32
+    let navigator: DetailNavigationNavigator
 
     var body: some View {
         let viewModel: DetailViewModel = viewModelStoreOwner.viewModel(
             factory: ViewModelFactoriesKt.detailViewModelFactory(objectId: objectId)
         )
 
-        VStack {
-            if let obj = museumObject {
-                ObjectDetails(obj: obj)
-            } else {
-                ProgressView()
-            }
+        content()
+        .alert(
+            "Message",
+            isPresented: Binding(
+                get: { alertMessage != nil },
+                set: { if !$0 { alertMessage = nil } }
+            )
+        ) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(alertMessage ?? "")
         }
         .task(id: objectId) {
-            for await latestObject in viewModel.museumObject {
+            for await latestState in viewModel.uiState {
+                let sealedState = onEnum(of: latestState)
                 await MainActor.run {
-                    museumObject = latestObject
+                    viewState = sealedState
                 }
             }
+        }
+        .task {
+            for await effect in viewModel.sideEffects {
+                switch onEnum(of: effect) {
+                case .navigation(let navigation):
+                    switch onEnum(of: navigation) {
+                    case .back:
+                        await MainActor.run {
+                            navigator.back()
+                        }
+                    }
+                case .viewEffect(let viewEffect):
+                    switch onEnum(of: viewEffect) {
+                    case .showMessage(let showMessage):
+                        await MainActor.run {
+                            alertMessage = showMessage.message
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func content() -> some View {
+        switch viewState {
+        case .data(let data):
+            ObjectDetails(obj: data.museumObject)
+        case .error(let error):
+            Text(error.message)
+        case .loading, nil:
+            ProgressView()
+        case .notFound:
+            EmptyScreenContent()
         }
     }
 }

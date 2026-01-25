@@ -1,7 +1,8 @@
-package com.antik.wallet.screens
+package com.antik.wallet.feature.detail
 
 import com.antik.wallet.data.MuseumRepository
 import com.antik.wallet.dto.MuseumObject
+import com.antik.wallet.screens.BaseViewModel
 import com.antik.wallet.utils.onFailureCancellable
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +14,7 @@ import org.orbitmvi.orbit.container
 class DetailViewModel(
     private val museumRepository: MuseumRepository,
     private val objectId: Int,
-) : BaseViewModel<DetailViewModel.ViewState, DetailViewModel.SideEffect>() {
+) : BaseViewModel<ViewState, SideEffect>() {
 
     override val container = viewModelScope.container<ViewState, SideEffect>(
         initialState = ViewState.Loading(objectId),
@@ -21,6 +22,16 @@ class DetailViewModel(
             loadObject()
         },
     )
+
+    fun onBackClick() = intent {
+        postSideEffect(SideEffect.Navigation.Back)
+    }
+
+    fun onAppBarAction(actionId: String) = intent {
+        when (actionId) {
+            else -> Unit
+        }
+    }
 
     val museumObject: StateFlow<MuseumObject?> =
         uiState
@@ -34,18 +45,12 @@ class DetailViewModel(
                 reduce { ViewState.Data(objectId = objectId, museumObject = obj) }
             } else {
                 reduce { ViewState.NotFound(objectId) }
+                postSideEffect(SideEffect.ViewEffect.ShowMessage("Object not found"))
             }
         }.onFailureCancellable { ex ->
-            reduce { ViewState.Error(objectId = objectId, message = ex.message ?: "Unknown error") }
+            val message = ex.message ?: "Unknown error"
+            reduce { ViewState.Error(objectId = objectId, message = message) }
+            postSideEffect(SideEffect.ViewEffect.ShowMessage(message))
         }
-    }
-
-    sealed interface SideEffect
-
-    sealed interface ViewState {
-        data class Loading(val objectId: Int) : ViewState
-        data class Data(val objectId: Int, val museumObject: MuseumObject) : ViewState
-        data class NotFound(val objectId: Int) : ViewState
-        data class Error(val objectId: Int, val message: String) : ViewState
     }
 }

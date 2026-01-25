@@ -1,8 +1,10 @@
-package com.antik.wallet.screens
+package com.antik.wallet.feature
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.antik.wallet.feature.detail.DetailViewModel
+import com.antik.wallet.feature.list.ListViewModel
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 

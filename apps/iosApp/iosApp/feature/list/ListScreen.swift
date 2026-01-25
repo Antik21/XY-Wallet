@@ -5,6 +5,10 @@ struct ListScreen: View {
     @StateObject private var viewModelStoreOwner = IosViewModelStoreOwner()
 
     @State private var objects: [DtoMuseumObject] = []
+    @State private var isLoading: Bool = false
+    @State private var alertMessage: String?
+
+    let navigator: ListNavigationNavigator
 
     let columns = [
         GridItem(.adaptive(minimum: 120), alignment: .top)
@@ -17,27 +21,61 @@ struct ListScreen: View {
 
         ZStack {
             if !objects.isEmpty {
-                NavigationStack {
-                    ScrollView {
-                        LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
-                            ForEach(objects, id: \.objectID) { item in
-                                NavigationLink(destination: DetailScreen(objectId: item.objectID)) {
-                                    ObjectFrame(obj: item)
-                                }
-                                .buttonStyle(PlainButtonStyle())
+                ScrollView {
+                    LazyVGrid(columns: columns, alignment: .leading, spacing: 20) {
+                        ForEach(objects, id: \.objectID) { item in
+                            Button {
+                                viewModel.onObjectClick(objectId: item.objectID)
+                            } label: {
+                                ObjectFrame(obj: item)
                             }
                         }
-                        .padding(.horizontal)
                     }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal)
                 }
+            } else if isLoading {
+                ProgressView()
             } else {
                 EmptyScreenContent()
             }
         }
+        .alert(
+            "Message",
+            isPresented: Binding(
+                get: { alertMessage != nil },
+                set: { if !$0 { alertMessage = nil } }
+            )
+        ) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(alertMessage ?? "")
+        }
         .task {
-            for await latestObjects in viewModel.objects {
+            for await latestState in viewModel.uiState {
                 await MainActor.run {
-                    objects = latestObjects
+                    objects = latestState.objects
+                    isLoading = latestState.isLoading
+                }
+            }
+        }
+        .task {
+            for await effect in viewModel.sideEffects {
+                switch onEnum(of: effect) {
+                case .navigation(let navigation):
+                    switch onEnum(of: navigation) {
+                    case .openDetail(let openDetail):
+                        await MainActor.run {
+                            navigator.openDetail(objectId: openDetail.objectId)
+                        }
+                    }
+                case .viewEffect(let viewEffect):
+                    switch onEnum(of: viewEffect) {
+                    case .showMessage(let showMessage):
+                        await MainActor.run {
+                            alertMessage = showMessage.message
+                        }
+                    }
                 }
             }
         }

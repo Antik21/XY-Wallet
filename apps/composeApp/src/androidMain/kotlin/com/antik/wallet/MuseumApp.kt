@@ -3,8 +3,8 @@ package com.antik.wallet
 import android.app.Application
 import com.antik.wallet.api.ApiConfig
 import com.antik.wallet.di.initKoin
-import com.antik.wallet.screens.DetailViewModel
-import com.antik.wallet.screens.ListViewModel
+import com.antik.wallet.feature.detail.DetailViewModel
+import com.antik.wallet.feature.list.ListViewModel
 import org.koin.dsl.module
 
 class MuseumApp : Application() {
