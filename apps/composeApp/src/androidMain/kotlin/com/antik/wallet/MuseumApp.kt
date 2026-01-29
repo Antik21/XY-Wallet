@@ -3,8 +3,8 @@ package com.antik.wallet
 import android.app.Application
 import com.antik.wallet.api.ApiConfig
 import com.antik.wallet.di.initKoin
-import com.antik.wallet.feature.detail.DetailViewModel
-import com.antik.wallet.feature.list.ListViewModel
+import com.antik.wallet.feature.museum.detail.DetailViewModel
+import com.antik.wallet.feature.museum.list.ListViewModel
 import com.antik.wallet.feature.start.StartViewModel
 import com.antik.wallet.feature.web.WebViewModel
 import org.koin.dsl.module

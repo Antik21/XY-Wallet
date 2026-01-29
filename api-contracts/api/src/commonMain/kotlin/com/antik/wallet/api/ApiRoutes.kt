@@ -4,6 +4,9 @@ object ApiRoutes {
     const val BASE = "/api"
     const val OBJECTS = "$BASE/objects"
     const val OBJECT = "$OBJECTS/{id}"
+}
+
+object ApiParams {
     const val PARAM_ID = "id"
 }
 

@@ -1,6 +1,6 @@
 package com.antik.wallet.feature.start
 
-import com.antik.wallet.screens.BaseViewModel
+import com.antik.wallet.feature.base.BaseViewModel
 import org.orbitmvi.orbit.container
 
 class StartViewModel : BaseViewModel<ViewState, SideEffect>() {

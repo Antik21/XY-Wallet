@@ -26,8 +26,8 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
-            implementation(projects.navigation)
             implementation(projects.api)
+            implementation(projects.uikit)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

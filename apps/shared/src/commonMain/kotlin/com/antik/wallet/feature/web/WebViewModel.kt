@@ -1,6 +1,6 @@
 package com.antik.wallet.feature.web
 
-import com.antik.wallet.screens.BaseViewModel
+import com.antik.wallet.feature.base.BaseViewModel
 import org.orbitmvi.orbit.container
 
 class WebViewModel(url: String) : BaseViewModel<ViewState, SideEffect>() {

@@ -1,5 +1,6 @@
 package com.antik.wallet.server.modules.museum.api
 
+import com.antik.wallet.api.ApiParams
 import com.antik.wallet.api.ApiRoutes
 import com.antik.wallet.server.modules.museum.application.GetMuseumObjectUseCase
 import com.antik.wallet.server.modules.museum.application.ListMuseumObjectsUseCase
@@ -21,7 +22,7 @@ fun Route.configureMuseumRoutes(repository: MuseumRepository) {
     }
 
     get(ApiRoutes.OBJECT) {
-        val id = requirePositiveId(call.parameters[ApiRoutes.PARAM_ID])
+        val id = requirePositiveId(call.parameters[ApiParams.PARAM_ID])
         val obj = getUseCase.execute(id) ?: throw NotFoundException("Object not found")
         call.respond(obj.toDto())
     }
