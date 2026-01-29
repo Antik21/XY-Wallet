@@ -27,6 +27,7 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
             implementation(projects.api)
+            implementation(projects.uikit)
         }
         commonMain.dependencies {
             implementation(compose.runtime)

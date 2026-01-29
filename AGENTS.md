@@ -70,3 +70,30 @@ All server-specific architecture and maintenance instructions are documented in:
 
 Use that file as the single source of truth for server structure, libraries,
 configuration, request/response formats, and extension guidelines.
+
+## UI Kit (Platform-Specific Components)
+
+UI Kit is **NOT** a shared KMP module. Each platform has its own UI Kit implementation with platform-specific code.
+
+### Purpose
+- Provide reusable UI components for each platform
+- Maintain consistent naming and component structure across platforms
+- Allow platform-specific customizations while keeping similar APIs
+
+### Naming Convention
+- All components **must** use the `UiKit` prefix
+- Component names **must** be identical on both platforms (e.g., `UiKitButton`, `UiKitEmptyState`)
+- File names **must** match component names
+
+### Structure
+- **Android**: Module `:uikit` at `apps/uikit` with sources in `apps/uikit/src/commonMain/kotlin/com/antik/wallet/uikit`
+  - Uses Compose Multiplatform
+  - Configured as Android-only library (not a KMP module)
+- **iOS**: Directory `apps/iosApp/iosApp/ui-kit`
+  - Uses SwiftUI
+  - Part of the iOS app target
+
+### Divergence Policy
+- Components should have similar APIs and behavior across platforms
+- Platform-specific components are allowed when they address platform-specific UI patterns
+- Document any significant API differences between platforms in code comments
