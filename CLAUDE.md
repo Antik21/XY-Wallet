@@ -1,10 +1,26 @@
-# Project Claude Code Instructions
+# XY-Wallet Project Instructions
 
-This repository uses Claude Code. Use this file as the entry point for Claude-specific guidance.
+## Overview
 
-## Server module
+This file provides project-specific instructions for working with the XY-Wallet codebase.
 
-All server architecture and maintenance rules are documented in:
-`server/CLAUDE.md`
+## Primary Reference
 
-When working on anything under `server/`, read and follow `server/CLAUDE.md` first.
+**All architectural decisions, code conventions, and project-specific rules are documented in [AGENTS.md](AGENTS.md).**
+
+Please read [AGENTS.md](AGENTS.md) at the start of each conversation and follow all rules described there.
+
+## Quick Reference
+
+Key topics covered in [AGENTS.md](AGENTS.md):
+- Agent behavior (language, comments, code style)
+- Kotlin Multiplatform (KMP) usage and best practices
+- Swift ↔ KMP bridge using SKIE library
+- Server module architecture
+- UI Kit cross-platform components
+- Module-specific guidelines
+
+## Important
+
+The [AGENTS.md](AGENTS.md) file is the **single source of truth** for this project.
+Always consult it when making architectural or implementation decisions.

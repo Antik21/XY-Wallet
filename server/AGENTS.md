@@ -114,7 +114,7 @@ We use a request-id header for tracing:
 DTOs live in the `dto` module.
 
 Steps:
-1) Create `@Serializable` data class in `dto/src/commonMain/...`.
+1) Create `@Serializable` data class in `api-contracts/dto/src/commonMain/...`.
 2) Keep DTOs **data-only** (no server logic).
 3) Use DTOs only in `api` layer on the server.
 
@@ -152,7 +152,7 @@ fun Route.configureFeatureRoutes(service: FeatureUseCase) {
 ## 7) How to add HTTP headers
 
 Headers should be centralized in `api` module:
-- Add constants to `api/ApiHeaders.kt`.
+- Add constants to `api-contracts/api/ApiHeaders.kt`.
 - Use them in server and client.
 
 Example:
